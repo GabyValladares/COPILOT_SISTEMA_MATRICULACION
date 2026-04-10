@@ -1,0 +1,230 @@
+<!-- Vista: Detalle de Estudiante -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-graduation-cap"></i> Matriculación PAO-I-2026
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/estudiantes"><i class="fas fa-users"></i> Estudiantes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <div class="container mt-4 mb-5">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h1 class="fw-bold">
+                    <i class="fas fa-id-card text-primary"></i> 
+                    <%= estudiante.nombre %> <%= estudiante.apellido %>
+                </h1>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="/estudiantes/<%= estudiante.id %>/editar" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="/estudiantes" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Información del Estudiante -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-user"></i> Datos Personales</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="small text-muted">Cédula</label>
+                                <p class="fw-bold mb-0"><%= estudiante.cedula %></p>
+                            </div>
+                            <div class="col-6">
+                                <label class="small text-muted">Género</label>
+                                <p class="fw-bold mb-0">
+                                    <% if (estudiante.genero === 'M') { %>
+                                        <i class="fas fa-mars text-primary"></i> Masculino
+                                    <% } else if (estudiante.genero === 'F') { %>
+                                        <i class="fas fa-venus text-danger"></i> Femenino
+                                    <% } else { %>
+                                        <%= estudiante.genero || 'No especificado' %>
+                                    <% } %>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small text-muted">Email</label>
+                            <p class="fw-bold mb-0">
+                                <a href="mailto:<%= estudiante.email %>"><%= estudiante.email %></a>
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small text-muted">Teléfono</label>
+                            <p class="fw-bold mb-0"><%= estudiante.telefono || 'No registrado' %></p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small text-muted">Fecha de Nacimiento</label>
+                            <p class="fw-bold mb-0">
+                                <% if (estudiante.fecha_nacimiento) { %>
+                                    <%= new Date(estudiante.fecha_nacimiento).toLocaleDateString('es-ES') %>
+                                <% } else { %>
+                                    No registrado
+                                <% } %>
+                            </p>
+                        </div>
+
+                        <div class="mb-0">
+                            <label class="small text-muted">Estado</label>
+                            <p class="mb-0">
+                                <% if (estudiante.estado === 'activo') { %>
+                                    <span class="badge bg-success">Activo</span>
+                                <% } else { %>
+                                    <span class="badge bg-danger">Inactivo</span>
+                                <% } %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-map-marker-alt"></i> Dirección</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="small text-muted">Dirección Completa</label>
+                            <p class="fw-bold mb-0"><%= estudiante.direccion || 'No registrado' %></p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="small text-muted">Ciudad</label>
+                                <p class="fw-bold mb-0"><%= estudiante.ciudad || 'No registrado' %></p>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="small text-muted">Provincia</label>
+                                <p class="fw-bold mb-0"><%= estudiante.provincia || 'No registrado' %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matriculaciones del Estudiante -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-clipboard-list"></i> Matriculaciones</h5>
+                        <a href="/matriculas/nuevo" class="btn btn-sm btn-light">
+                            <i class="fas fa-plus"></i> Matricular
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <% if (matriculas && matriculas.length > 0) { %>
+                            <% matriculas.forEach(mat => { %>
+                                <div class="card mb-3 border-0 bg-light">
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-2">
+                                            <i class="fas fa-book text-primary"></i> 
+                                            <%= mat.carrera %>
+                                        </h6>
+                                        <div class="row small mb-2">
+                                            <div class="col-6">
+                                                <label class="text-muted">Modalidad:</label>
+                                                <p class="mb-0">
+                                                    <% if (mat.modalidad === 'Presencial') { %>
+                                                        <i class="fas fa-building"></i> <%= mat.modalidad %>
+                                                    <% } else { %>
+                                                        <i class="fas fa-laptop-house"></i> <%= mat.modalidad %>
+                                                    <% } %>
+                                                </p>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="text-muted">Estado:</label>
+                                                <p class="mb-0">
+                                                    <% if (mat.estado === 'activa') { %>
+                                                        <span class="badge bg-success">Activa</span>
+                                                    <% } else { %>
+                                                        <span class="badge bg-secondary">Inactiva</span>
+                                                    <% } %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">
+                                            Matriculado: <%= new Date(mat.fecha_matricula).toLocaleDateString('es-ES') %>
+                                        </small>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="alert alert-info mb-0">
+                                <i class="fas fa-info-circle"></i> 
+                                El estudiante aún no tiene matriculaciones registradas.
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-0 mt-3">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0"><i class="fas fa-history"></i> Registro</h5>
+                    </div>
+                    <div class="card-body small">
+                        <div class="mb-2">
+                            <label class="text-muted">Registrado el:</label>
+                            <p class="fw-bold mb-0">
+                                <%= new Date(estudiante.created_at).toLocaleString('es-ES') %>
+                            </p>
+                        </div>
+                        <div>
+                            <label class="text-muted">Última modificación:</label>
+                            <p class="fw-bold mb-0">
+                                <%= new Date(estudiante.updated_at).toLocaleString('es-ES') %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <p class="text-center small mb-0 text-muted">
+                © 2026 - Sistema de Matriculación de Estudiantes
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

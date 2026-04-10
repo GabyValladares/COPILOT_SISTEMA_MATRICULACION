@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.env.local
+.env
+database/matriculacion.db
+dist/
+build/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.netlify

@@ -1,0 +1,218 @@
+<!-- Vista: Detalle de Matriculación -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-graduation-cap"></i> Matriculación PAO-I-2026
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/matriculas"><i class="fas fa-clipboard-list"></i> Matriculaciones</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <div class="container mt-4 mb-5">
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="fw-bold">
+                    <i class="fas fa-clipboard-check text-success"></i> 
+                    Matriculación - <%= matricula.nombre %> <%= matricula.apellido %>
+                </h1>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="/matriculas/<%= matricula.id %>/editar" class="btn btn-warning">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a href="/matriculas" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Información de la Matriculación -->
+            <div class="col-lg-8">
+                <!-- Card Principal -->
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-check-circle"></i> 
+                            Detalles de la Matriculación
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="small text-muted">Carrera</label>
+                                <h5 class="fw-bold mb-0 text-primary">
+                                    <i class="fas fa-book"></i> <%= matricula.carrera %>
+                                </h5>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="small text-muted">Modalidad</label>
+                                <h5 class="fw-bold mb-0 text-info">
+                                    <% if (matricula.modalidad === 'Presencial') { %>
+                                        <i class="fas fa-building"></i> <%= matricula.modalidad %>
+                                    <% } else { %>
+                                        <i class="fas fa-laptop-house"></i> <%= matricula.modalidad %>
+                                    <% } %>
+                                </h5>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="small text-muted">Período Académico</label>
+                                <p class="fw-bold mb-0"><%= matricula.periodo %></p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="small text-muted">Estado</label>
+                                <p class="mb-0">
+                                    <% if (matricula.estado === 'activa') { %>
+                                        <span class="badge bg-success">Activa</span>
+                                    <% } else { %>
+                                        <span class="badge bg-secondary">Inactiva</span>
+                                    <% } %>
+                                </p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="small text-muted">Fecha de Matriculación</label>
+                                <p class="fw-bold mb-0">
+                                    <%= new Date(matricula.fecha_matricula).toLocaleDateString('es-ES') %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información del Estudiante -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="fas fa-user"></i> Información del Estudiante</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="small text-muted">Nombre Completo</label>
+                                <p class="fw-bold mb-0">
+                                    <%= matricula.nombre %> <%= matricula.apellido %>
+                                </p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="small text-muted">Cédula</label>
+                                <p class="fw-bold mb-0"><%= matricula.cedula %></p>
+                            </div>
+                        </div>
+
+                        <a href="/estudiantes/<%= matricula.estudiante_id %>/detalle" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-external-link-alt"></i> Ver Perfil Completo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Lateral -->
+            <div class="col-lg-4">
+                <!-- Información de Registro -->
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="mb-0"><i class="fas fa-clock"></i> Historial</h6>
+                    </div>
+                    <div class="card-body small">
+                        <div class="mb-3">
+                            <label class="text-muted fw-bold">Registrado el:</label>
+                            <p class="mb-0">
+                                <%= new Date(matricula.created_at).toLocaleString('es-ES') %>
+                            </p>
+                        </div>
+                        <div>
+                            <label class="text-muted fw-bold">Última modificación:</label>
+                            <p class="mb-0">
+                                <%= new Date(matricula.updated_at).toLocaleString('es-ES') %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información sobre la Carrera -->
+                <div class="card shadow-sm border-0 mb-3">
+                    <div class="card-header bg-primary text-white">
+                        <h6 class="mb-0"><i class="fas fa-book-open"></i> Carrera</h6>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-2"><%= matricula.carrera %></h6>
+                        <% if (matricula.carrera.includes('Desarrollo')) { %>
+                            <p class="small text-muted mb-0">
+                                Especialización en desarrollo de aplicaciones, software y sistemas informáticos.
+                            </p>
+                        <% } else { %>
+                            <p class="small text-muted mb-0">
+                                Formación en sistemas electrónicos y controladores.
+                            </p>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Información sobre la Modalidad -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="mb-0"><i class="fas fa-network-wired"></i> Modalidad</h6>
+                    </div>
+                    <div class="card-body">
+                        <% if (matricula.modalidad === 'Presencial') { %>
+                            <h6 class="fw-bold mb-2">
+                                <i class="fas fa-building"></i> Presencial
+                            </h6>
+                            <p class="small text-muted mb-0">
+                                Modalidad presencial con clases en el campus.
+                            </p>
+                        <% } else { %>
+                            <h6 class="fw-bold mb-2">
+                                <i class="fas fa-laptop-house"></i> Virtual
+                            </h6>
+                            <p class="small text-muted mb-0">
+                                Modalidad virtual con clases en línea.
+                            </p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+            <p class="text-center small mb-0 text-muted">
+                © 2026 - Sistema de Matriculación de Estudiantes
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
